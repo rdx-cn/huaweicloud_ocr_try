@@ -1,0 +1,55 @@
+# -*- coding:utf-8 -*-
+# Copyright 2018 Huawei Technologies Co.,Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+# this file except in compliance with the License.  You may obtain a copy of the
+# License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed
+# under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+# CONDITIONS OF ANY KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations under the License.
+
+from HWOcrClientAKSK import HWOcrClientAKSK
+from HWOcrClientToken import HWOcrClientToken
+
+if __name__ == '__main__':
+    '''
+    Token demo code
+   '''
+
+    username = "xxx"
+    password = "xxx"
+    domain_name = "xxx"  # if the user isn't IAM user, domain_name is the same with username
+    region = "cn-north-1"  # cn-north-1,cn-east-2 etc.
+    endpoint = "ocr.cn-north-1.myhuaweicloud.com"
+    option={}
+    option["side"]="front"
+    try:
+       ocrClient=HWOcrClientToken(domain_name,username,password,region,endpoint)
+       response=ocrClient.request_ocr_service_base64('/v1.0/ocr/id-card','./data/id-card-demo.png',option)
+       print("Status code:"+str(response.status_code)+" content:"+response.text)
+    except ValueError as e:
+       print(e)
+
+
+
+    '''
+    AK SK demo code
+   '''
+
+    AK="xxx"  #AK from authentication
+    SK="xxx"   #SK from authentication
+    endpoint="ocr.cn-north-1.myhuaweicloud.com"  #http endpoint information
+    ocr_client=HWOcrClientAKSK(AK,SK,endpoint)  #initialize ocr_client from ak,sk and endpoint information
+    option={}
+    option["side"]="front"
+    try:
+       response=ocr_client.request_ocr_service_base64("/v1.0/ocr/id-card",'./data/id-card-demo.png',option) #call OCR interface to recognize picture
+       print("Status code:"+str(response.status_code)+" content:"+response.text)
+    except ValueError as e:
+       print(e)
+
+
